@@ -28,6 +28,9 @@ var LimitedArray = function(limit) {
       callback(storage[i], i, storage);
     }
   };
+  limitedArray.checkContents = function() { // created by me to see storage contents
+    return storage;
+  }
 
   var checkLimit = function(index) {
     if (typeof index !== 'number') {
