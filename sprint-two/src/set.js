@@ -7,17 +7,30 @@ var Set = function() {
 var setPrototype = {};
 
 setPrototype.add = function(item) {
-  this._storage[item] = {};
+  if (typeof item === 'string') {
+  this._storage[item] = item;
+  } else {
+    this._storage[JSON.stringify(item)] = item;
+  }
 };
 
 setPrototype.contains = function(item) {
-  return this._storage[item] ? true : false;
+  if (typeof item === 'string') {
+    return this._storage[item] !== undefined
+  } else {
+    return this._storage[JSON.stringify(item)] !== undefined;
+  }
 };
 
 setPrototype.remove = function(item) {
-  delete this._storage[item];
-  
+  if (typeof item === 'string') {
+    delete this._storage[item]
+  } else {
+    delete this._storage[JSON.stringify(item)];
+  }
 };
+
+
 
 /*
  * Complexity: What is the time complexity of the above functions?
