@@ -42,8 +42,6 @@ HashTable.prototype.insert = function(k, v) {
     for(let toop of saved) {
       this.insert(toop[0], toop[1]);
     }
-    console.log(this._storage.checkContents())
-    console.log('resized table by double');
   }
 };
 
