@@ -8,7 +8,7 @@ var setPrototype = {};
 
 setPrototype.add = function(item) {
   if (typeof item === 'string') {
-  this._storage[item] = item;
+  this._storage[`"${item}"`] = item;
   } else {
     this._storage[JSON.stringify(item)] = item;
   }
@@ -16,7 +16,7 @@ setPrototype.add = function(item) {
 
 setPrototype.contains = function(item) {
   if (typeof item === 'string') {
-    return this._storage[item] !== undefined
+    return this._storage[`"${item}"`] !== undefined
   } else {
     return this._storage[JSON.stringify(item)] !== undefined;
   }
@@ -24,7 +24,7 @@ setPrototype.contains = function(item) {
 
 setPrototype.remove = function(item) {
   if (typeof item === 'string') {
-    delete this._storage[item]
+    delete this._storage[`"${item}"`]
   } else {
     delete this._storage[JSON.stringify(item)];
   }
