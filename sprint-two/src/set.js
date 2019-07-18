@@ -6,25 +6,28 @@ var Set = function() {
 
 var setPrototype = {};
 
+// Adds item to set
 setPrototype.add = function(item) {
   if (typeof item === 'string') {
-  this._storage[`"${item}"`] = item;
+    this._storage[`"${item}"`] = item;
   } else {
     this._storage[JSON.stringify(item)] = item;
   }
 };
 
+// Checks to see if set contains item
 setPrototype.contains = function(item) {
   if (typeof item === 'string') {
-    return this._storage[`"${item}"`] !== undefined
+    return `"${item}"` in this._storage;
   } else {
-    return this._storage[JSON.stringify(item)] !== undefined;
+    return JSON.stringify(item) in this._storage;
   }
 };
 
+// Removes set from item
 setPrototype.remove = function(item) {
   if (typeof item === 'string') {
-    delete this._storage[`"${item}"`]
+    delete this._storage[`"${item}"`];
   } else {
     delete this._storage[JSON.stringify(item)];
   }

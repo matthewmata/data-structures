@@ -1,8 +1,8 @@
-var Tree = function(value, parent = null) {
+var Tree = function(value) {
   var newTree = {};
   newTree.value = value;
+  newTree.parent = null;
   newTree.children = [];
-  newTree.parent = parent;
   _.extend(newTree, treeMethods);
 
   return newTree;
@@ -10,55 +10,50 @@ var Tree = function(value, parent = null) {
 
 var treeMethods = {};
 
+// Adds child to the tree
 treeMethods.addChild = function(value) {
-  this.children.push(new Tree(value, this));
+  let child = new Tree(value)
+  this.children.push(child);
+  child.parent = this;
 };
 
-treeMethods.contains = function(target, node) {
-  node = node || this;
-  let contained = false;
-  if (node.value === target) {
+// Checks to see if tree contains the target
+treeMethods.contains = function(target) {
+  if (this.value === target) {
     return true;
-  }
-  if (node.children.length) {
-    for(let child of node.children) {
-      if (!contained) {
-        contained = this.contains(target, child);
-      } else {
+  } else if (this.children) {
+    for (let child of this.children) {
+      if (child.contains(target)) {
         return true;
-      }
+      };
     }
   }
-  return contained;
+  return false;
 };
 
-treeMethods.removeFromParent = function(childNodeValue, node) {
-  node = node || this;
-  let removed = false;
-  if (node.children.length) {
-    for(let i = 0; i < node.children.length; i++) {
-      if (!removed) {
-        if (node.children[i].value === childNodeValue) {
-          node.children[i].parent === null;
-          node.children.splice(i, 1);
-          return true;
-        } else if (node.children[i].children){
-          removed = this.removeFromParent(childNodeValue, node.children[i]);
-        }
-      } else {
-        return true;
+// Removes the child Node from the parent Node
+treeMethods.removeFromParent = function(childNodeValue) {
+  if (this.value === childNodeValue) {
+    for (let i = 0; i < this.parent.children.length; i++) {
+      if (this.parent.children[i].value === childNodeValue) {
+        this.parent.children.splice(i, 1);
       }
     }
+    this.parent = null;
   }
-  return removed;
+  if (this.children) {
+    for (let child of this.children) {
+      child.removeFromParent(childNodeValue);
+    }
+  }
 }
 
-treeMethods.traverse = function(cb, node) {
-  node = node || this
-  cb(node.value);
-  if (node.children) {
-    for(let child of node.children) {
-      node.traverse(cb, child);
+// Runs a callback on every Node in the tree
+treeMethods.traverse = function(cb) {
+  cb(this.value);
+  if (this.children) {
+    for (let child of this.children) {
+      child.traverse(cb);
     }
   }
 }
