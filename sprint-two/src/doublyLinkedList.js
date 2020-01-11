@@ -15,9 +15,3 @@ DoublyLinkedList.prototype.contains = function(target, node) {
 
 };
 
-// var Node = function(value) {
-//   this.value = value;
-//   this.next = null;
-//   this.previous = null;
-// };
-
